@@ -42,6 +42,10 @@ rav1e is an AV1 video encoder. It is designed to eventually cover all use cases,
 ## Documentation
 Find the documentation in [`doc/`](doc/README.md)
 
+## Changes in my fork
+- added [mimalloc-safe](https://crates.io/crates/mimalloc-safe)
+- optimized the compile options
+
 ## Releases
 For the foreseeable future, a weekly pre-release of rav1e will be [published](https://github.com/xiph/rav1e/releases) every Tuesday.
 
