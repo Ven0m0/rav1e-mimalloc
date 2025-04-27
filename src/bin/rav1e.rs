@@ -8,10 +8,10 @@
 // PATENTS file, you can obtain it at www.aomedia.org/license/patent.
 
 // Mimalloc
-#[cfg(feature = "mimalloc")]
-use mimalloc::MiMalloc;
+#[cfg(feature = "mimalloc-safe")]
+use mimalloc_safe::MiMalloc;
 
-#[cfg(feature = "mimalloc")]
+#[cfg(feature = "mimalloc-safe")]
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
@@ -261,7 +261,7 @@ fn do_encode<T: Pixel, D: Decoder>(
       for frame in frame_info {
         progress.add_frame(frame.clone());
         if verbose == Verboseness::Verbose {
-          info!("{} - {}", frame, progress);
+          info!("{frame} - {progress}");
         } else {
           // Print a one-line progress indicator that overrides itself with every update
           eprint!("\r{progress}                    ");
