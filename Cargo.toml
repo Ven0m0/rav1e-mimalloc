@@ -24,7 +24,7 @@ default-run = "rav1e"
 
 [features]
 unstable = []
-mimalloc = ["dep:mimalloc"]
+mimalloc-safe = ["dep:mimalloc-safe"]
 channel-api = ["crossbeam"]
 decode_test = ["aom-sys"]
 decode_test_dav1d = ["dav1d-sys"]
@@ -39,7 +39,7 @@ binaries = [
   "av-metrics",
   "nom",
 ]
-default = ["binaries", "asm", "threading", "signal_support", "git_version", "mimalloc"]
+default = ["binaries", "asm", "threading", "signal_support", "git_version", "mimalloc-safe"]
 git_version = ["built/git2"]
 asm = ["nasm-rs", "cc"]
 threading = ["rayon/threads"]
@@ -123,7 +123,7 @@ tracing-subscriber = { version = "0.3.18", optional = true }
 tracing-chrome = { version = "0.7.1", optional = true }
 tracing = { version = "0.1.40", optional = true }
 aligned-vec = "0.6.0"
-mimalloc = { version = "=0.1.46", optional = true }
+mimalloc-safe = { version = "0.1.51", optional = true }
 
 [dependencies.image]
 version = "0.25.0"
@@ -203,10 +203,12 @@ harness = false
 opt-level = 3
 
 [profile.release]
+lto = "fat" 
 opt-level = 3
 debug = false
-lto = true
-codegen-units = 1
+debug_assertions = false
+overflow-checks = false
+codegen-units = 1 
 panic = "abort"
 strip = "symbols"
 
