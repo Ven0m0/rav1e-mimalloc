@@ -24,6 +24,7 @@ default-run = "rav1e"
 
 [features]
 unstable = []
+mimalloc = ["dep:mimalloc"]
 channel-api = ["crossbeam"]
 decode_test = ["aom-sys"]
 decode_test_dav1d = ["dav1d-sys"]
@@ -38,7 +39,7 @@ binaries = [
   "av-metrics",
   "nom",
 ]
-default = ["binaries", "asm", "threading", "signal_support", "git_version"]
+default = ["binaries", "asm", "threading", "signal_support", "git_version", "mimalloc"]
 git_version = ["built/git2"]
 asm = ["nasm-rs", "cc"]
 threading = ["rayon/threads"]
@@ -122,6 +123,7 @@ tracing-subscriber = { version = "0.3.18", optional = true }
 tracing-chrome = { version = "0.7.1", optional = true }
 tracing = { version = "0.1.40", optional = true }
 aligned-vec = "0.6.0"
+mimalloc = { version = "=0.1.46", optional = true }
 
 [dependencies.image]
 version = "0.25.0"
@@ -198,17 +200,15 @@ required-features = ["bench"]
 harness = false
 
 [profile.dev]
-opt-level = 1
+opt-level = 3
 
 [profile.release]
-debug = true
-incremental = true
-lto = "thin"
-
-# windows-gnu should use it until rust-lang/rust#98302 is not fixed
-[profile.release-no-lto]
-inherits = "release"
-lto = "off"
+opt-level = 3
+debug = false
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
 
 [profile.release-strip]
 inherits = "release"
